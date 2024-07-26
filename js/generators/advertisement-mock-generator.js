@@ -23,7 +23,6 @@ export class AdvertisementMockGenerator {
       })
     }
 
-    console.log(result);
     return result;
   }
 }
