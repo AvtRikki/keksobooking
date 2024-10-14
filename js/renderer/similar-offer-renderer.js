@@ -146,7 +146,7 @@ export class SimilarOfferRenderer {
     }
   }
 
-  render(offersInfo) {
+  renderOffers(offersInfo) {
     const template = this.#getTemplate();
     const offersFragments = [];
     for (let i = 0; i < offersInfo.length; i++) {
@@ -156,5 +156,13 @@ export class SimilarOfferRenderer {
     }
 
     return offersFragments;
+  }
+
+  renderOffer(offerInfo) {
+    const template = this.#getTemplate();
+    const templateInstance = template.cloneNode(true);
+    this.#fillTemplateWithData(templateInstance, offerInfo)
+
+    return templateInstance;
   }
 }

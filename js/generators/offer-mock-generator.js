@@ -1,10 +1,7 @@
 import { Utils } from "../utils.js";
+import { Consts } from '../consts.js';
 
 export class OfferMockGenerator {
-  #MAX_RENT_PRICE = 100000;
-  #MAX_GUESTS_COUNT = 10;
-  #MAX_ROOMS_COUNT = 10;
-
   #TITLES = [
     "Уютная квартира в центре города - сдам долгосрочно",
     "Сдается светлая квартира рядом с метро",
@@ -82,10 +79,10 @@ export class OfferMockGenerator {
     return {
       title: Utils.getRandomValueFromArray(this.#TITLES),
       address: Utils.getRandomValueFromArray(this.#ADDRESSES),
-      price: Utils.generateRandomNumber(1, this.#MAX_RENT_PRICE),
+      price: Utils.generateRandomNumber(1, Consts.MAX_RENT_PRICE),
       type: Utils.getRandomValueFromArray(this.#HOUSE_TYPE),
-      rooms: Utils.generateRandomNumber(1, this.#MAX_ROOMS_COUNT),
-      guests: Utils.generateRandomNumber(1, this.#MAX_GUESTS_COUNT),
+      rooms: Utils.generateRandomNumber(1, Consts.MAX_ROOMS_COUNT),
+      guests: Utils.generateRandomNumber(1, Consts.MAX_GUESTS_COUNT),
       checkin: Utils.getRandomValueFromArray(this.#CHECK_TIME),
       checkout: Utils.getRandomValueFromArray(this.#CHECK_TIME),
       features: this.#getRandomAmenities(),

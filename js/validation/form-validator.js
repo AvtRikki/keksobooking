@@ -1,28 +1,6 @@
+import {Consts} from '../consts.js';
+
 export class FormValidator {
-  ROOM_TO_GUEST_MAPPING = {
-    '1' : '1',
-    '2' : ['2', '1'],
-    '3' : ['3', '2', '1'],
-    '100' : '0',
-  }
-
-  TYPES_OF_HOUSING = {
-    'flat': 'Квартира',
-    'bungalow': 'Бунгало',
-    'house': 'Дом',
-    'palace': 'Дворец',
-    'hotel': 'Отель',
-  };
-
-  TYPE_HOUSING_OPTIONS = {
-    'bungalow' : '0',
-    'flat' : '1000',
-    'hotel' : '3000',
-    'house' : '5000',
-    'palace' : '10000',
-  };
-
-
   constructor(form) {
     this.form = form;
 
@@ -40,7 +18,7 @@ export class FormValidator {
     this.pristine.addValidator(this.price, this.#validatePrice.bind(this), this.#getPriceValidationMessage.bind(this));
 
     this.typeHousing.addEventListener('change', () => {
-      this.price.placeholder = this.TYPE_HOUSING_OPTIONS[this.typeHousing.value];
+      this.price.placeholder = Consts.TYPE_HOUSING_OPTIONS[this.typeHousing.value];
       this.pristine.validate(this.price);
     });
 
@@ -50,7 +28,7 @@ export class FormValidator {
   }
 
   #validateRoomNumbers() {
-    return this.ROOM_TO_GUEST_MAPPING[this.roomNumbers.value].includes(this.capacity.value);
+    return Consts.ROOM_TO_GUEST_MAPPING[this.roomNumbers.value].includes(this.capacity.value);
   }
 
   #getRoomNumbersValidationMessage() {
@@ -67,14 +45,14 @@ export class FormValidator {
 
   #validatePrice(value) {
     const cost = parseInt(value, 10);
-    const minPrice = this.TYPES_OF_HOUSING[this.typeHousing.value] || 0;
+    const minPrice = Number(Consts.TYPE_HOUSING_OPTIONS[this.typeHousing.value] || 0);
 
     return cost && (cost >= minPrice);
   }
 
   #getPriceValidationMessage () {
     const type = this.form.querySelector('[name="type"]');
-    return `Выберете цену от ${this.TYPE_HOUSING_OPTIONS[type.value]} до 100000`;
+    return `Выберете цену от ${Consts.TYPE_HOUSING_OPTIONS[type.value]} до 100000`;
   }
 
   reset() {

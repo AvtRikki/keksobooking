@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="js/vendor/nouislider/nouislider.css">
+  <link rel="stylesheet" href="js/vendor/leaflet/leaflet.css">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <title>Кексобукинг</title>
 </head>
@@ -93,7 +95,7 @@
         <fieldset class="ad-form__element ad-form__element--wide">
           <label class="ad-form__label" for="address">Адрес (координаты)</label>
           <input id="address" name="address" type="text" required
-                 data-pristine-required-message="Обязательное поле">
+                 data-pristine-required-message="Обязательное поле" readonly>
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="type">Тип жилья</label>
@@ -235,5 +237,7 @@
   </template>
   <script type="module" src="js/main.js"></script>
   <script src="js/vendor/pristine/pristine.min.js"></script>
+  <script src="js/vendor/leaflet/leaflet.js"></script>
+  <script src="js/vendor/nouislider/nouislider.js"></script>
 </body>
 </html>
