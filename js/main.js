@@ -5,6 +5,7 @@ import {MapManager} from './managers/map-manager.js';
 import {SliderRenderer} from './renderer/slider-renderer.js';
 import {DataLoader} from './loaders/data-loader.js';
 import {MessageManager} from './managers/message-manager.js';
+import {FilterManager} from './managers/filter-manager.js';
 
 const dataLoader = new DataLoader('https://25.javascript.htmlacademy.pro/keksobooking');
 const formManager = new FormManager('ad-form', dataLoader);
@@ -32,6 +33,8 @@ mapManager.render('map-canvas').then(async (data) => {
     messageManager.showAlert(error);
   }
 
+  const filterManager = new FilterManager('map__filters');
+
   if (offerInfos) {
     const renderer = new SimilarOfferRenderer('card', 'popup');
     mapManager.renderOffers(data.map, offerInfos, renderer);
@@ -40,6 +43,7 @@ mapManager.render('map-canvas').then(async (data) => {
   formManager.on('reset', () => {
     formManager.updateAddress(INIT_MAP_POSITION);
     mapManager.resetState(data);
+    filterManager.resetState();
   });
 
   formManager.updateAddress(INIT_MAP_POSITION);
