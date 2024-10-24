@@ -34,16 +34,19 @@ mapManager.render('map-canvas').then(async (data) => {
   }
 
   const filterManager = new FilterManager('map__filters');
+  const renderer = new SimilarOfferRenderer('card', 'popup');
 
   if (offerInfos) {
-    const renderer = new SimilarOfferRenderer('card', 'popup');
-    mapManager.renderOffers(data.map, offerInfos, renderer);
+    filterManager.applyFilter(offerInfos, (filteredOffers) => {
+      mapManager.renderOffers(data.map, filteredOffers, renderer);
+    });
   }
 
   formManager.on('reset', () => {
     formManager.updateAddress(INIT_MAP_POSITION);
     mapManager.resetState(data);
     filterManager.resetState();
+    mapManager.renderOffers(data.map, offerInfos.slice(0, 10), renderer);
   });
 
   formManager.updateAddress(INIT_MAP_POSITION);

@@ -10,13 +10,13 @@ export class FormManager {
   #SUBMIT_SUFFIX = '__submit';
   #RESET_SUFFIX = '__reset';
   #PHOTO_SUFFIX = '__photo';
-  #TIME_LINE_SUFFIX = '__element--time'
+  #TIME_LINE_SUFFIX = '__element--time';
 
-  #AVATAR_SELECTOR = '#avatar'
-  #PHOTO_SELECTOR = '#images'
-  #TIME_IN_SELECTOR = '#timein'
-  #TIME_OUT_SELECTOR = '#timeout'
-  #ADDRESS_SELECTOR = '#address'
+  #AVATAR_SELECTOR = '#avatar';
+  #PHOTO_SELECTOR = '#images';
+  #TIME_IN_SELECTOR = '#timein';
+  #TIME_OUT_SELECTOR = '#timeout';
+  #ADDRESS_SELECTOR = '#address';
 
   #UPLOADING_MESSAGE = 'Загрузка...';
 

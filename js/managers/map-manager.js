@@ -11,6 +11,7 @@ export class MapManager {
   constructor(initPosition, initZoomLevel) {
     this.initPosition = initPosition;
     this.initZoomLevel = initZoomLevel;
+    this.markerGroup = null;
   }
 
   #createMainMarker(map) {
@@ -33,7 +34,11 @@ export class MapManager {
   }
 
   #createSecondaryMarkers(map, offerInfos, offerRenderer) {
-    const markerGroup = L.layerGroup().addTo(map);
+    if (!this.markerGroup) {
+      this.markerGroup = L.layerGroup().addTo(map);
+    } else {
+      this.markerGroup.clearLayers();
+    }
 
     const secondaryMarkerIcon = L.icon({
       iconUrl: this.#SECONDARY_MARKER_URL,
@@ -51,7 +56,7 @@ export class MapManager {
       );
 
       marker
-        .addTo(markerGroup)
+        .addTo(this.markerGroup)
         .bindPopup(offerRenderer.renderOffer(info));
     })
   }
