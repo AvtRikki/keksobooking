@@ -107,7 +107,7 @@ export class SimilarOfferRenderer {
     }
 
     const featuresPart = this.#getTemplatePart(templateInstance, this.#OFFER_FEATURES_SUFFIX);
-    if (offer.features.length > 0) {
+    if (offer.features?.length > 0) {
       for (let feature of featuresPart.children) {
         feature.classList.add('visually-hidden');
       }
@@ -139,10 +139,12 @@ export class SimilarOfferRenderer {
       photosPart.removeChild(photosPart.firstChild);
     }
 
-    for (let i = 0; i < offer.photos.length; i++) {
-      const photoNode = photoPart.cloneNode(true);
-      photoNode.src = offer.photos[i];
-      photosPart.appendChild(photoNode);
+    if (offer.photos) {
+      for (let i = 0; i < offer.photos.length; i++) {
+        const photoNode = photoPart.cloneNode(true);
+        photoNode.src = offer.photos[i];
+        photosPart.appendChild(photoNode);
+      }
     }
   }
 

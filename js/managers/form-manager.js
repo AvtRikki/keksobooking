@@ -1,4 +1,6 @@
 import {FormValidator} from '../validation/form-validator.js';
+import {DataLoader} from '../loaders/data-loader.js';
+import {MessageManager} from './message-manager.js';
 
 export class FormManager {
   #COORDINATE_ACCURACY = 5;
@@ -12,16 +14,18 @@ export class FormManager {
 
   #UPLOADING_MESSAGE = 'Загрузка...';
 
-  constructor(formName) {
-
+  constructor(formName, filterFormName, dataLoader) {
     this.submitButton = document.querySelector(`.${formName}${this.#SUBMIT_SUFFIX}`);
     this.submitButtonDefaultName = this.submitButton.textContent;
     this.uploadForm = document.querySelector(`.${formName}`);
+    this.filterForm = document.querySelector(`.${filterFormName}`);
     this.address = this.uploadForm.querySelector (this.#ADDRESS_SELECTOR);
     this.timeInSelect = this.uploadForm.querySelector(this.#TIME_IN_SELECTOR);
     this.timeOutSelect = this.uploadForm.querySelector(this.#TIME_OUT_SELECTOR);
     this.timeLineGroup = this.uploadForm.querySelector(`.${formName}${this.#TIME_LINE_SUFFIX}`);
+    this.messageManager = new MessageManager();
     this.validator = new FormValidator(this.uploadForm);
+    this.dataLoader = dataLoader;
 
     this.onFormSubmit = async (evt) => {
       evt.preventDefault();
@@ -35,10 +39,31 @@ export class FormManager {
     });
   }
 
+  #resetForm() {
+    this.filterForm.reset();
+    this.uploadForm.reset();
+    // this.updateAddress(INIT_MAP_POSITION)
+  }
+
   async #trySubmitFormIfValid(target) {
     if (this.validator.validate()) {
       this.#beginUploading();
-      Promise.resolve().finally(() => this.#endUploading());
+
+      try {
+        const formData = new FormData(target)
+        const result = await this.dataLoader.saveData(formData);
+        if (result) {
+          this.messageManager.showSuccessMessage();
+          this.#resetForm();
+        } else {
+          this.messageManager.showErrorMessage();
+        }
+      }
+      catch (error) {
+        this.messageManager.showErrorMessage();
+      } finally {
+        this.#endUploading();
+      }
     }
   }
 
