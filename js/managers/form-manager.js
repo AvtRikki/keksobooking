@@ -1,11 +1,11 @@
 import {FormValidator} from '../validation/form-validator.js';
-import {DataLoader} from '../loaders/data-loader.js';
 import {MessageManager} from './message-manager.js';
 
 export class FormManager {
   #COORDINATE_ACCURACY = 5;
 
   #SUBMIT_SUFFIX = '__submit';
+  #RESET_SUFFIX = '__reset';
   #TIME_LINE_SUFFIX = '__element--time'
 
   #TIME_IN_SELECTOR = '#timein'
@@ -14,11 +14,12 @@ export class FormManager {
 
   #UPLOADING_MESSAGE = 'Загрузка...';
 
-  constructor(formName, filterFormName, dataLoader) {
+  constructor(formName, dataLoader) {
+    this.callbacks = new Map();
     this.submitButton = document.querySelector(`.${formName}${this.#SUBMIT_SUFFIX}`);
+    this.resetButton = document.querySelector(`.${formName}${this.#RESET_SUFFIX}`);
     this.submitButtonDefaultName = this.submitButton.textContent;
     this.uploadForm = document.querySelector(`.${formName}`);
-    this.filterForm = document.querySelector(`.${filterFormName}`);
     this.address = this.uploadForm.querySelector (this.#ADDRESS_SELECTOR);
     this.timeInSelect = this.uploadForm.querySelector(this.#TIME_IN_SELECTOR);
     this.timeOutSelect = this.uploadForm.querySelector(this.#TIME_OUT_SELECTOR);
@@ -39,10 +40,13 @@ export class FormManager {
     });
   }
 
-  #resetForm() {
-    this.filterForm.reset();
+  #resetForm(evt) {
+    evt?.preventDefault();
+
     this.uploadForm.reset();
-    // this.updateAddress(INIT_MAP_POSITION)
+    if (this.callbacks.has('reset')) {
+      this.callbacks.get('reset')();
+    }
   }
 
   async #trySubmitFormIfValid(target) {
@@ -67,12 +71,22 @@ export class FormManager {
     }
   }
 
+  on(messageKind, callback) {
+    if (this.callbacks.has(messageKind)) {
+      this.callbacks.delete(messageKind);
+    }
+
+    this.callbacks.set(messageKind, callback);
+  }
+
   subscribe() {
     this.uploadForm.addEventListener('submit', this.onFormSubmit);
+    this.resetButton.addEventListener('click', this.#resetForm.bind(this))
   }
 
   unsubscribe() {
     this.uploadForm.removeEventListener('submit', this.onFormSubmit);
+    this.resetButton.removeEventListener('click', this.#resetForm.bind(this))
   }
 
   updateAddress(position) {

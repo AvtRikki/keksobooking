@@ -79,4 +79,10 @@ export class MapManager {
   renderOffers(map, offerInfos, offerRenderer) {
     this.#createSecondaryMarkers(map, offerInfos, offerRenderer);
   }
+
+  resetState(data) {
+    data.marker.setLatLng(this.initPosition);
+    data.map.closePopup();
+    data.map.setView(this.initPosition, this.initZoomLevel);
+  }
 }

@@ -4,7 +4,7 @@ export class DataLoader {
   constructor(sourceUrl) {
     this.sourceUrl = sourceUrl;
     this.getDataUrl = `${this.sourceUrl}/${this.#GET_SUFFIX}`;
-    this.sendDataUrl = this.sourceUrl+'sdf'
+    this.sendDataUrl = this.sourceUrl;
   }
 
   async loadData() {

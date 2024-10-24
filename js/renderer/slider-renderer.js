@@ -57,7 +57,7 @@ export class SliderRenderer {
         }
       });
 
-      this.resetButton.addEventListener('click', this.reset);
+      this.resetButton.addEventListener('click', this.reset.bind(this));
     }
   }
 
